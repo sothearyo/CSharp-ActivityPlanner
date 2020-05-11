@@ -1,0 +1,92 @@
+<style>
+    span {
+        color: red;
+        font-size: small;
+    }
+</style>
+
+@model PlanDojoActWrap
+<div class="row py-3 border-bottom">
+    <div class="col-6">
+        <h2>Dojo Activity Center</h2>
+    </div>
+    <div class="col-4 text-right">
+        <a href="/dashboard" class="btn btn-outline-info">Dashboard</a>
+    </div>
+    <div class="col-1 text-right">
+        <a href="/logout" class="btn btn-outline-info">Logout</a>
+    </div>
+</div>
+
+<div class="row pt-5 pb-4 px-3">
+    <h4>Create an Activity</h4>
+</div>
+<form asp-action="CreateDojoAct" asp-controller="Home" method="post">
+    <div class="row">
+        <div class="form-group col">
+            <div class="row">
+                <div class="col-4">
+                    <label asp-for="@Model.DojoAct.Title">Title:</label>
+                </div>
+                <div class="col-8">
+                    <span asp-validation-for="@Model.DojoAct.Title"></span>
+                    <input asp-for="@Model.DojoAct.Title" type="text" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <div class="row">
+                <div class="col-4">
+                    <label asp-for="@Model.StartTime">Time:</label>
+                </div>
+                <div class="col-8">
+                    <span asp-validation-for="@Model.StartTime"></span>
+                    <input asp-for="@Model.StartTime" type="time" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col">
+            <div class="row">
+                <div class="col-4">
+                    <label asp-for="@Model.DojoAct.StartDateTime">Date:</label>
+                </div>
+                <div class="col-8">
+                    <span asp-validation-for="@Model.DojoAct.StartDateTime"></span>
+                    <input asp-for="@Model.DojoAct.StartDateTime" type="date" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="form-group col">
+            <div class="row">
+                <div class="col-4">
+                    <label asp-for="@Model.DojoAct.Duration">Duration:</label>
+                </div>
+                <div class="col-4">
+                    <span asp-validation-for="@Model.DojoAct.Duration"></span>
+                    <input asp-for="@Model.DojoAct.Duration" type="number" min="0" class="form-control">
+                </div>
+                <div class="col-4">
+                    <select asp-for="@Model.DurationType">
+                        <option value="Hours">Hours</option>
+                        <option value="Minutes">Minutes</option>
+                        <option value="Days">Days</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-2">
+            <label asp-for="@Model.DojoAct.Description">Description:</label>
+        </div>
+        <div class="col-10">
+            <span asp-validation-for="@Model.DojoAct.Description"></span>
+            <textarea asp-for="@Model.DojoAct.Description" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="row-col text-right">
+        <input type="submit" value="Create" class="btn btn-outline-info">
+    </div>
+</form>

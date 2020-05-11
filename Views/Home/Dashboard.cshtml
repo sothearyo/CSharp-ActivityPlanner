@@ -1,0 +1,67 @@
+@model DashboardWrap
+<div class="row py-3 border-bottom">
+    <div class="col-6">
+        <h2>Dojo Activity Center</h2>
+    </div>
+    <div class="col-4 text-right">
+        <h5>Welcome, @Model.User.FirstName!</h5>
+    </div>
+    <div class="col-1 text-right">
+        <a href="/logout" class="btn btn-outline-info">Logout</a>
+    </div>
+</div>
+<div class="row py-5">
+    <table class="table table-border">
+        <thead>
+            <tr>
+                <th>Activity</th>
+                <th>Date and Time</th>
+                <th>Duration</th>
+                <th>Event Coordinator</th>
+                <th>No. of Participants</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var i in @Model.AllDojoActs)
+            {
+                <tr>
+                    <td><a href="/oneDojoAct/@i.DojoActId">@i.Title</a></td>
+                    <td>@i.DateTimeString</td>
+                    <td>@i.DurationString</td>
+                    <td>@i.Creator.FirstName @i.Creator.LastName</td>
+                    <td>@i.AllUsers.Count</td>
+                    <td>
+                        @if(@Model.User.UserId == @i.Creator.UserId)
+                        {
+                            <a href="/delete/@i.DojoActId">Delete</a>
+                        }
+                        else
+                        {
+                            bool AlreadyJoined = false;
+                            @foreach(var assoc in @Model.User.AllDojoActs)
+                            {
+                                @if(@i.AllUsers.Contains(assoc))
+                                {
+                                    AlreadyJoined = true;
+                                    <a href="/leave/@i.DojoActId">Leave</a>
+                                    continue;
+                                }
+                            }
+                            @if(!AlreadyJoined)
+                            {
+                                <a href="/join/@i.DojoActId">Join</a>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row-col text-right">
+    <a href="/planDojoAct"class="btn btn-outline-info">Create Activity</a>
+</div>
+<div class="row">
+    <p>@Model.TimeConflicts</p>
+</div>

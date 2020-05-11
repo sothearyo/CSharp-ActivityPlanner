@@ -1,0 +1,62 @@
+@model DashboardWrap
+<div class="row py-3 border-bottom">
+    <div class="col-6">
+        <h2>Dojo Activity Center</h2>
+    </div>
+    <div class="col-4 text-right">
+        <a href="/dashboard" class="btn btn-outline-info">Dashboard</a>
+    </div>
+    <div class="col-1 text-right">
+        <a href="/logout" class="btn btn-outline-info">Logout</a>
+    </div>
+</div>
+<div class="row py-4">
+    <div class="col-6">
+        <h3>@Model.DojoAct.Title</h3>
+    </div>
+    <div class="col-6">
+        @{
+            @if(@Model.User.UserId == @Model.DojoAct.Creator.UserId)
+            {
+                <a href="/delete/@Model.DojoAct.DojoActId" class="btn btn-outline-info">Delete</a>
+            }
+            else
+            {
+                bool AlreadyJoined = false;
+                @foreach(var assoc in @Model.User.AllDojoActs)
+                {
+                    @if(@Model.DojoAct.AllUsers.Contains(assoc))
+                    {
+                        AlreadyJoined = true;
+                        <a href="/leave/@Model.DojoAct.DojoActId" class="btn btn-outline-info">Leave</a>
+                        continue;
+                    }
+                }
+                @if(!AlreadyJoined)
+                {
+                    <a href="/join/@Model.DojoAct.DojoActId" class="btn btn-outline-info">Join</a>
+                }
+            }
+        }
+    </div>
+</div>
+<div class="row">
+    <h5>Event Coordinator: @Model.DojoAct.Creator.FirstName @Model.DojoAct.Creator.LastName</h5>
+</div>
+<div class="row pt-4">
+    <h5>Description:</h5>
+</div>
+<div class="row">
+    <p>@Model.DojoAct.Description</p>
+</div>
+<div class="row pt-4">
+    <h5>Participants:</h5>
+</div>
+<div class="row">
+    <ul>
+        @foreach (var i in @Model.DojoAct.AllUsers)
+        {
+            <li>@i.User.FirstName</li>
+        }
+    </ul>
+</div>

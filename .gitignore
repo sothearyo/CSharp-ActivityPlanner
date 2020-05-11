@@ -1,0 +1,5 @@
+migrations/
+bin/
+obj/
+appsettings.json
+.DS_Store
